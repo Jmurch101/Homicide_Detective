@@ -2,13 +2,13 @@
 
 A text-based investigation game (web + desktop) where you play a detective tracking the "House Hunter". Find clues across rooms, avoid killer rooms, and solve the case.
 
-## Run
+## Quick Start
 
-- Open `index.html` in any modern browser (double-click it on macOS Finder).
-- Type responses and press Enter.
-- Type `restart` at any time to restart the story.
+Web (no install):
+- Open `index.html` in any modern browser.
+- Type responses and press Enter. Type `restart` anytime.
 
-### Run the PyQt desktop app
+### Desktop (PyQt) 
 
 1. Create a virtual environment (recommended):
    - macOS/Linux:
@@ -25,6 +25,11 @@ A text-based investigation game (web + desktop) where you play a detective track
    ```
 3. Run the app:
    ```bash
+   python pyqt_main.py
+   ```
+   If macOS blocks Qt plugins, try:
+   ```bash
+   xattr -dr com.apple.quarantine .venv/lib/python3.10/site-packages/PyQt6/Qt6
    python pyqt_main.py
    ```
 

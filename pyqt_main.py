@@ -4,7 +4,10 @@ import sys
 from dataclasses import dataclass
 from typing import Callable, Dict, List, Optional, Tuple, Union
 
-from PyQt6.QtCore import Qt
+import os
+import pathlib
+import PyQt6
+from PyQt6.QtCore import Qt, QCoreApplication
 from PyQt6.QtGui import QAction
 from PyQt6.QtWidgets import (
     QApplication,
@@ -27,6 +30,18 @@ class Scene:
     text: List[str]
     parse: Optional[Callable[[str], Union[str, Dict[str, Union[str, bool]]]]] = None
     danger: bool = False
+
+
+def _ensure_qt_plugin_paths() -> None:
+    # Help Qt find the bundled platform plugins (e.g., 'cocoa') on macOS
+    pkg_dir = pathlib.Path(PyQt6.__file__).parent
+    plugins_dir = pkg_dir / "Qt6" / "plugins"
+    platforms_dir = plugins_dir / "platforms"
+    # Environment fallbacks
+    os.environ.setdefault("QT_PLUGIN_PATH", str(plugins_dir))
+    os.environ.setdefault("QT_QPA_PLATFORM_PLUGIN_PATH", str(platforms_dir))
+    # Qt runtime search path
+    QCoreApplication.addLibraryPath(str(plugins_dir))
 
 
 class TextAdventureWindow(QMainWindow):
@@ -122,9 +137,19 @@ class TextAdventureWindow(QMainWindow):
         self.current_room: Optional[str] = None
         self.difficulty: Optional[str] = None
         self.lives: int = 0
-        # Show backstory then initial prompt
-        self._render_scene("prologue")
-        self._render_scene(self.current_scene_key)
+        # Show backstory (without changing current scene), then initial prompt
+        prologue = None
+        try:
+            prologue = self._build_scenes()["prologue"].text
+        except Exception:
+            prologue = [
+                "You are a homicide detective, called to a chilling case.",
+                "They call the suspect the 'House Hunter'—a predator who stalks homes after dark.",
+                "Find the clues, avoid the killer, and end the spree.",
+            ]
+        for line in prologue:
+            self._append_line(line, "system")
+        self._render_scene("start")
 
     def _append_line(self, text: str, kind: str = "game") -> None:
         # Simple styling via HTML spans
@@ -442,6 +467,7 @@ class TextAdventureWindow(QMainWindow):
 
 
 def main() -> int:
+    _ensure_qt_plugin_paths()
     app = QApplication(sys.argv)
     win = TextAdventureWindow()
     win.show()
