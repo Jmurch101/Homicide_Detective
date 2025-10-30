@@ -169,6 +169,9 @@ class TextAdventureWindow(QMainWindow):
         for line in scene.text:
             self._append_line(line, "danger" if scene.danger else "game")
         self.current_scene_key = key
+        # If this scene has no parser, it's an ending. Prompt to restart.
+        if scene.parse is None:
+            self._append_line('Type "restart" to play again, or use the Restart menu.', "system")
 
     def on_submit(self) -> None:
         value = self.input.text().strip()
@@ -394,7 +397,7 @@ class TextAdventureWindow(QMainWindow):
             "investigate": Scene(
                 text=[
                     "You choose to intervene. We need clues before the killer finds us.",
-                    "Choose a difficulty: easy (3 clues), medium (5 clues, +1 room), hard (8 clues, +2 rooms).",
+                    "Respond with anything to continue.",
                 ],
                 parse=investigate_parse,
             ),
