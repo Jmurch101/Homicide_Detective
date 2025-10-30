@@ -1,6 +1,6 @@
-# Text Adventure (Web)
+# Homicide Detective
 
-A minimal browser-based text adventure with a simple GUI input box.
+A text-based investigation game (web + desktop) where you play a detective tracking the "House Hunter". Find clues across rooms, avoid killer rooms, and solve the case.
 
 ## Run
 
@@ -74,7 +74,7 @@ Difficulty:
 - hard: find 8 clues; +2 extra rooms (random)
 
 Rules:
-- One random killer room. Entering it is game over.
+- One (easy/medium) or two (hard) killer rooms. On hard you can survive one encounter.
 - Clues are hidden at random room-item pairs across the active rooms.
 
 Commands:
@@ -89,3 +89,17 @@ Commands:
 - `script.js` — story engine and scenes
 - `pyqt_main.py` — PyQt6 desktop app
 - `requirements.txt` — Python deps for the desktop app
+ - `.gitignore` — common ignores
+
+## About
+
+- Title: Homicide Detective — House Hunter Case
+- Premise: A serial predator stalks homes after dark. You must gather enough clues without stumbling into the killer’s rooms.
+
+## Contributing
+
+See `CONTRIBUTING.md` for guidelines. Please follow the Code of Conduct.
+
+## License
+
+MIT — see `LICENSE`.

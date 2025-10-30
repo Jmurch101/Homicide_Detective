@@ -1,0 +1,5 @@
+# Normalize line endings
+* text=auto
+
+# Linguist overrides (optional)
+*.md linguist-documentation

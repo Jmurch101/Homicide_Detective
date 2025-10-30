@@ -84,11 +84,14 @@ class TextAdventureWindow(QMainWindow):
         layout.addWidget(self.submit)
         central.setLayout(layout)
 
-        # Menu: Restart
+        # Menu: Restart / About
         restart_action = QAction("Restart", self)
         restart_action.setShortcut("Ctrl+R")
         restart_action.triggered.connect(self.restart)
+        about_action = QAction("About", self)
+        about_action.triggered.connect(self.show_about)
         self.menuBar().addAction(restart_action)
+        self.menuBar().addAction(about_action)
 
         self.submit.clicked.connect(self.on_submit)
         self.input.returnPressed.connect(self.on_submit)
@@ -183,6 +186,11 @@ class TextAdventureWindow(QMainWindow):
         self.difficulty = None
         self.lives = 0
         self._render_scene(self.current_scene_key)
+
+    def show_about(self) -> None:
+        self._append_line("Homicide Detective — House Hunter case", "system")
+        self._append_line("A text-based investigation: find clues, avoid killer rooms, solve the case.", "system")
+        self._append_line("Web and desktop versions included. Type 'restart' anytime to begin again.", "system")
 
     def _build_scenes(self) -> Dict[str, Scene]:
         def start_parse(inp: str) -> Union[str, Dict[str, Union[str, bool]]]:
